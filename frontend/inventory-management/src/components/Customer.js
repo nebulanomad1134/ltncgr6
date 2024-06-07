@@ -1,7 +1,7 @@
 // src/components/Customer.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Page.css';  // Assuming Page.css is the renamed CSS file
+import './Page.css';  
 
 const API_URL = process.env.REACT_APP_API_URL;
 

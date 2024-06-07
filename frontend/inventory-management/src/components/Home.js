@@ -10,6 +10,8 @@ const Home = () => {
       <div className="navigation">
         <Link to="/suppliers" className="nav-link">Manage Suppliers</Link>
         <Link to="/customers" className="nav-link">Manage Customers</Link>
+        <Link to="/products" className="nav-link">Manage Product</Link>
+
         {/* Add more links as needed */}
       </div>
     </div>
