@@ -1,0 +1,14 @@
+create schema inventory, 
+chạy ddl
+
+sửa trong resource/application.properties
+
+npx create-react-app supplier-management
+
+npm install axios
+npm audit fix --force
+
+copy Supplier.js trong folder src, thay file App.js
+
+
+npm install bootstrap

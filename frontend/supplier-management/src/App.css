@@ -1,0 +1,28 @@
+.home-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.navigation {
+  margin-top: 20px;
+}
+
+.nav-link {
+  display: inline-block;
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.nav-link:hover {
+  background-color: #0056b3;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
