@@ -1,7 +1,7 @@
 // src/components/Home.js
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Page.css';  // Assuming you have some styles in Page.css
+import './Page.css';  
 
 const Home = () => {
   return (
@@ -11,6 +11,7 @@ const Home = () => {
         <Link to="/suppliers" className="nav-link">Manage Suppliers</Link>
         <Link to="/customers" className="nav-link">Manage Customers</Link>
         <Link to="/products" className="nav-link">Manage Product</Link>
+        <Link to="/purchaseinfo" className="nav-link">Manage Purchases</Link>
 
         {/* Add more links as needed */}
       </div>
