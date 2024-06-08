@@ -10,17 +10,29 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
+
     @Autowired
     private ProductRepository productRepository;
 
     @GetMapping
     public List<Product> getAllProducts() {
         return productRepository.findAll();
+//        List<Product> ProductList = productRepository.findAll();
+//        ProductList.forEach(product -> {
+//            ProductStock productStock = productStockRepository.findByProductCode(product.getProductCode())
+//                    .orElseThrow(() -> new RuntimeException("Product not found with code: " + product.getProductCode()));
+//        product.setQuantity(productStock.getQuantity());
+//        });
+//        return ProductList;
+
     }
 
     @PostMapping
     public Product createProduct(@RequestBody Product product) {
-        return productRepository.save(product);
+        Product savedProduct = productRepository.save(product);
+//        ProductStock productStock = new ProductStock(savedProduct.getProductCode(), savedProduct.getQuantity()); // Initialize stock with 0
+//        productStockRepository.save(productStock);
+        return savedProduct;
     }
 
     @GetMapping("/{id}")
@@ -38,13 +50,33 @@ public class ProductController {
                     product.setCostPrice(updatedProduct.getCostPrice());
                     product.setSellingPrice(updatedProduct.getSellingPrice());
                     product.setBrand(updatedProduct.getBrand());
-                    return productRepository.save(product);
-                })
-                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
-    }
+                    product.setQuantity(updatedProduct.getQuantity()); // Update quantity directly
+                
+                return productRepository.save(product);
+            })
+            .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+}
+
+                    
+//                    // Update quantity
+//                    ProductStock productStock = productStockRepository.findByProductCode(product.getProductCode())
+//                            .orElseThrow(() -> new RuntimeException("Product stock not found for product code: " + product.getProductCode()));
+//                    productStock.setQuantity(updatedProduct.getQuantity());
+//                    productStockRepository.save(productStock);
+//
+//                    return productRepository.save(product);
+//                })
+//                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+//    }
 
     @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable Long id) {
         productRepository.deleteById(id);
     }
+
+//    @GetMapping("/stock/{productCode}")
+//    public ProductStock getProductStockByProductCode(@PathVariable String productCode) {
+//        return productStockRepository.findByProductCode(productCode)
+//                .orElseThrow(() -> new RuntimeException("Product stock not found with product code: " + productCode));
+//    }
 }

@@ -1,11 +1,6 @@
 package com.example.inventorymanagement.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "products")
@@ -28,26 +23,30 @@ public class Product {
     
     @Column(name = "brand", nullable = false)
     private String brand;
+    
+    @Column(name = "quantity", nullable = false)
+    private int quantity;
 
     // Constructors
     public Product() {
     }
 
-    public Product(String productCode, String productName, double costPrice, double sellingPrice, String brand) {
+    public Product(String productCode, String productName, double costPrice, double sellingPrice, String brand, int quantity) {
         this.productCode = productCode;
         this.productName = productName;
         this.costPrice = costPrice;
         this.sellingPrice = sellingPrice;
         this.brand = brand;
+        this.quantity = quantity;
     }
 
     // Getters and setters
-    public Long getId() {
+    public Long getPid() {
         return pid;
     }
 
-    public void setId(Long id) {
-        this.pid = id;
+    public void setPid(Long pid) {
+        this.pid = pid;
     }
 
     public String getProductCode() {
@@ -88,5 +87,13 @@ public class Product {
 
     public void setBrand(String brand) {
         this.brand = brand;
+    }
+    
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

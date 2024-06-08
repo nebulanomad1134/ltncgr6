@@ -48,6 +48,11 @@ public class PurchaseInfoController {
         purchaseInfo.setSupplierName(supplier.getFullName());
         purchaseInfo.setProductName(product.getProductName());
 
+        // Update product quantity
+        int newQuantity = product.getQuantity() + purchaseInfo.getQuantity();
+        product.setQuantity(newQuantity);
+        productRepository.save(product);
+
         return purchaseInfoRepository.save(purchaseInfo);
     }
 
@@ -73,13 +78,22 @@ public class PurchaseInfoController {
                     Product product = productRepository.findByProductCode(updatedPurchaseInfo.getProductCode())
                             .orElseThrow(() -> new RuntimeException("Product not found with code: " + updatedPurchaseInfo.getProductCode()));
 
+                    int oldQuantity = purchaseInfo.getQuantity();
+                    int newQuantity = updatedPurchaseInfo.getQuantity();
+                    int quantityDifference = newQuantity - oldQuantity;
+
                     purchaseInfo.setSupplierCode(updatedPurchaseInfo.getSupplierCode());
                     purchaseInfo.setProductCode(updatedPurchaseInfo.getProductCode());
                     purchaseInfo.setDate(updatedPurchaseInfo.getDate());
-                    purchaseInfo.setQuantity(updatedPurchaseInfo.getQuantity());
+                    purchaseInfo.setQuantity(newQuantity);
                     purchaseInfo.setTotalCost(updatedPurchaseInfo.getTotalCost());
                     purchaseInfo.setSupplierName(supplier.getFullName());
                     purchaseInfo.setProductName(product.getProductName());
+
+                    // Update product quantity based on the difference
+                    int updatedProductQuantity = product.getQuantity() + quantityDifference;
+                    product.setQuantity(updatedProductQuantity);
+                    productRepository.save(product);
 
                     return purchaseInfoRepository.save(purchaseInfo);
                 })

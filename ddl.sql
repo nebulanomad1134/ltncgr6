@@ -41,6 +41,7 @@ CREATE TABLE `products` (
   `costprice` double NOT NULL,
   `sellingprice` double NOT NULL,
   `brand` varchar(50) NOT NULL,
+  `quantity` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`pid`),
   UNIQUE KEY `productcode_UNIQUE` (`productcode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -86,6 +87,14 @@ CREATE TABLE `product_salesreport` (
   CONSTRAINT `fk_product_salesreport_product` FOREIGN KEY (`productcode`) REFERENCES `products` (`productcode`) ON DELETE CASCADE,
   CONSTRAINT `fk_product_salesreport_salesreport` FOREIGN KEY (`salesid`) REFERENCES `salesreport` (`salesid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `productstock` (
+  `productcode` varchar(100) NOT NULL,
+  `quantity` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`productcode`),
+  CONSTRAINT `fk_product_stock_product` FOREIGN KEY (`productcode`) REFERENCES `products` (`productcode`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 
 INSERT INTO suppliers (suppliercode, fullname, location, phone) VALUES
 ('SUPP001', 'Supplier One', 'New York', '1234567890'),

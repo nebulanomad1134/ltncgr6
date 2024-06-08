@@ -6,7 +6,7 @@ const API_URL = process.env.REACT_APP_API_URL;
 
 const Product = () => {
   const [products, setProducts] = useState([]);
-  const [form, setForm] = useState({ productCode: '', productName: '', costPrice: '', sellingPrice: '', brand: '' });
+  const [form, setForm] = useState({ productCode: '', productName: '', costPrice: '', sellingPrice: '', brand: '', quantity: '' });
   const [editMode, setEditMode] = useState(false);
   const [currentId, setCurrentId] = useState(null);
 
@@ -35,7 +35,7 @@ const Product = () => {
       } else {
         await axios.post(`${API_URL}/products`, form);
       }
-      setForm({ productCode: '', productName: '', costPrice: '', sellingPrice: '', brand: '' });
+      setForm({ productCode: '', productName: '', costPrice: '', sellingPrice: '', brand: '', quantity: '' });
       setEditMode(false);
       setCurrentId(null);
       fetchProducts();
@@ -44,16 +44,21 @@ const Product = () => {
     }
   };
 
-  const handleEdit = (product) => {
-    setForm({
-      productCode: product.productCode,
-      productName: product.productName,
-      costPrice: product.costPrice,
-      sellingPrice: product.sellingPrice,
-      brand: product.brand,
-    });
-    setEditMode(true);
-    setCurrentId(product.id);  // Make sure to set the ID correctly
+  const handleEdit = async (product) => {
+    try {
+      setForm({
+        productCode: product.productCode,
+        productName: product.productName,
+        costPrice: product.costPrice,
+        sellingPrice: product.sellingPrice,
+        brand: product.brand,
+        quantity: product.quantity
+      });
+      setEditMode(true);
+      setCurrentId(product.pid);  // Make sure to set the ID correctly
+    } catch (error) {
+      console.error('Error fetching product stock', error);
+    }
   };
 
   const handleDelete = async (id) => {
@@ -104,6 +109,13 @@ const Product = () => {
           value={form.brand}
           onChange={handleChange}
         />
+        <input
+          type="number"
+          name="quantity"
+          placeholder="Quantity"
+          value={form.quantity}
+          onChange={handleChange}
+        />
         <button type="submit">{editMode ? 'Update' : 'Create'}</button>
       </form>
 
@@ -116,20 +128,22 @@ const Product = () => {
             <th>Cost Price</th>
             <th>Selling Price</th>
             <th>Brand</th>
+            <th>Quantity</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {products.map((product) => (
-            <tr key={product.id}>
+            <tr key={product.pid}>
               <td>{product.productCode}</td>
               <td>{product.productName}</td>
               <td>{product.costPrice}</td>
               <td>{product.sellingPrice}</td>
               <td>{product.brand}</td>
+              <td>{product.quantity}</td>
               <td>
                 <button className="edit-button" onClick={() => handleEdit(product)}>Edit</button>
-                <button className="delete-button" onClick={() => handleDelete(product.id)}>Delete</button>
+                <button className="delete-button" onClick={() => handleDelete(product.pid)}>Delete</button>
               </td>
             </tr>
           ))}
