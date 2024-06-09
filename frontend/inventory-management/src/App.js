@@ -6,6 +6,9 @@ import Supplier from './components/Supplier';
 import Customer from './components/Customer';
 import Product from './components/Product';
 import PurchaseInfo from './components/PurchaseInfo';
+import User from './components/User';
+import Salesreport from './components/SalesReport';
+
 
 import './App.css';  // Assuming you have some global styles in App.css
 
@@ -19,6 +22,8 @@ const App = () => {
           <Route path="/customers" element={<Customer />} />
           <Route path="/products" element={<Product />} />
           <Route path="/purchaseinfo" element={<PurchaseInfo />} />
+          <Route path="/users" element={<User />} />
+          <Route path="/salesreport" element={<Salesreport />} />
 
           {/* Add more routes as needed */}
         </Routes>

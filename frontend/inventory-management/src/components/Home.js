@@ -12,6 +12,8 @@ const Home = () => {
         <Link to="/customers" className="nav-link">Manage Customers</Link>
         <Link to="/products" className="nav-link">Manage Product</Link>
         <Link to="/purchaseinfo" className="nav-link">Manage Purchases</Link>
+        <Link to="/users" className="nav-link">Manage Users</Link>
+        <Link to="/salesreport" className="nav-link">Manage Sale Report</Link>
 
         {/* Add more links as needed */}
       </div>

@@ -28,7 +28,7 @@ CREATE TABLE `users` (
   `phone` varchar(10) NOT NULL,
   `username` varchar(20) NOT NULL,
   `password` varchar(200) NOT NULL,
-  `category` enum('admin','normal') NOT NULL,
+  `category` enum('ADMIN','NORMAL') NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username_UNIQUE` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -66,35 +66,18 @@ CREATE TABLE `salesreport` (
   `salesid` int(11) NOT NULL AUTO_INCREMENT,
   `date` date NOT NULL,
   `customercode` varchar(100) NOT NULL,
+  `productcode` varchar(200) NOT NULL,
   `quantity` int(11) NOT NULL,
   `revenue` double NOT NULL,
-  `soldby` int(11) NOT NULL,
+  `soldby` varchar(20) NOT NULL,
   PRIMARY KEY (`salesid`),
   KEY `fk_salesreport_customer` (`customercode`),
   KEY `fk_salesreport_user` (`soldby`),
   CONSTRAINT `fk_salesreport_customer` FOREIGN KEY (`customercode`) REFERENCES `customers` (`customercode`) ON DELETE CASCADE,
-  CONSTRAINT `fk_salesreport_user` FOREIGN KEY (`soldby`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  CONSTRAINT `fk_salesreport_user` FOREIGN KEY (`soldby`) REFERENCES `users` (`username`) ON DELETE CASCADE,
+  CONSTRAINT `fk_salesreport_product` FOREIGN KEY (`productcode`) REFERENCES `products` (`productcode`) ON DELETE CASCADE
 
--- Intermediate table for many-to-many relationship between products and salesreport
-CREATE TABLE `product_salesreport` (
-  `product_salesreport_id` int(11) NOT NULL AUTO_INCREMENT,
-  `productcode` varchar(100) NOT NULL,
-  `salesid` int(11) NOT NULL,
-  PRIMARY KEY (`product_salesreport_id`),
-  KEY `fk_product_salesreport_product` (`productcode`),
-  KEY `fk_product_salesreport_salesreport` (`salesid`),
-  CONSTRAINT `fk_product_salesreport_product` FOREIGN KEY (`productcode`) REFERENCES `products` (`productcode`) ON DELETE CASCADE,
-  CONSTRAINT `fk_product_salesreport_salesreport` FOREIGN KEY (`salesid`) REFERENCES `salesreport` (`salesid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-CREATE TABLE `productstock` (
-  `productcode` varchar(100) NOT NULL,
-  `quantity` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`productcode`),
-  CONSTRAINT `fk_product_stock_product` FOREIGN KEY (`productcode`) REFERENCES `products` (`productcode`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 
 INSERT INTO suppliers (suppliercode, fullname, location, phone) VALUES
 ('SUPP001', 'Supplier One', 'New York', '1234567890'),

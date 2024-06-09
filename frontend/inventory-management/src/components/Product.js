@@ -16,7 +16,12 @@ const Product = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get(`${API_URL}/products`);
+      const token = localStorage.getItem('token'); // Get the token from local storage
+      const response = await axios.get(`${API_URL}/products`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       setProducts(response.data);
     } catch (error) {
       console.error('Error fetching products', error);
@@ -30,10 +35,19 @@ const Product = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const token = localStorage.getItem('token');
       if (editMode) {
-        await axios.put(`${API_URL}/products/${currentId}`, form);
+        await axios.put(`${API_URL}/products/${currentId}`, form, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
       } else {
-        await axios.post(`${API_URL}/products`, form);
+        await axios.post(`${API_URL}/products`, form, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
       }
       setForm({ productCode: '', productName: '', costPrice: '', sellingPrice: '', brand: '', quantity: '' });
       setEditMode(false);
@@ -44,26 +58,31 @@ const Product = () => {
     }
   };
 
-  const handleEdit = async (product) => {
-    try {
-      setForm({
-        productCode: product.productCode,
-        productName: product.productName,
-        costPrice: product.costPrice,
-        sellingPrice: product.sellingPrice,
-        brand: product.brand,
-        quantity: product.quantity
-      });
-      setEditMode(true);
-      setCurrentId(product.pid);  // Make sure to set the ID correctly
-    } catch (error) {
-      console.error('Error fetching product stock', error);
-    }
+  const handleEdit = (product) => {
+		 
+    setForm({
+      productCode: product.productCode,
+      productName: product.productName,
+      costPrice: product.costPrice,
+      sellingPrice: product.sellingPrice,
+      brand: product.brand,
+      quantity: product.quantity
+    });
+    setEditMode(true);
+    setCurrentId(product.pid);  // Make sure to set the ID correctly
+					 
+														   
+	 
   };
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${API_URL}/products/${id}`);
+      const token = localStorage.getItem('token');
+      await axios.delete(`${API_URL}/products/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       fetchProducts();
     } catch (error) {
       console.error('Error deleting product', error);
